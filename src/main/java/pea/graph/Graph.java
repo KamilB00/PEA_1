@@ -1,18 +1,31 @@
 package pea.graph;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class Graph {
-    private static Graph graphInstance;
+    private static Graph INSTANCE;
     public int[][] graph;
 
-    private Graph(int[][] graph) {
-        this.graph = graph;
+    private Graph() {
     }
 
-    public static Graph getInstance(int[][] graph) {
-        if (graphInstance == null) {
-            graphInstance = new Graph(graph);
+    public static Graph getInstance() {
+       if (INSTANCE == null){
+           INSTANCE = new Graph();
+       }
+       return INSTANCE;
+    }
+
+    public void show(){
+        for (int [] row: graph){
+            for(int elem: row){
+                System.out.print(elem + " ");
+            }
+            System.out.println();
         }
-        return graphInstance;
     }
 
 

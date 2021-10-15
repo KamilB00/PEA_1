@@ -5,7 +5,8 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 public class GraphGenerator {
-    public int[][] generateMatrix(int size) {
+
+    public static int[][] generateMatrix(int size) {
 
         int min = 10;
         int max = 100;
@@ -24,7 +25,7 @@ public class GraphGenerator {
         return matrix;
     }
 
-    public int[][] getMatrixFromFile(String fileName) throws FileNotFoundException {
+    public static int[][] getMatrixFromFile(String fileName) throws FileNotFoundException {
         Scanner scanner = new Scanner(new File(fileName));
 
         int size = scanner.nextInt();
