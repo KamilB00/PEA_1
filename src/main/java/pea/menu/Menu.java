@@ -1,6 +1,6 @@
 package pea.menu;
 
-
+import pea.algorithms.TSP;
 import pea.graph.Graph;
 import pea.graph.GraphGenerator;
 import java.io.FileNotFoundException;
@@ -14,8 +14,8 @@ public class Menu {
     }
 
     public void mainWindow() throws FileNotFoundException {
-        switch (choice()) {
 
+        switch (choice()) {
             case 1: {
                 String filePath = "/Users/kamilbonkowski/Downloads/instances/tsp_test.txt";
                 Graph.getInstance().setGraph(GraphGenerator.getMatrixFromFile(filePath));
@@ -30,8 +30,10 @@ public class Menu {
                 mainWindow();
             }
             case 3: {
-            //TODO: TSP implementation
-
+                int[] vertexes = {0,1,2};
+                TSP tsp = new TSP(vertexes.length);
+                tsp.printAllRecursive(vertexes.length,vertexes);
+                break;
             }
             case 4: {
                 Graph.getInstance().show();
@@ -45,7 +47,6 @@ public class Menu {
     }
 
     public int choice() {
-
         return choiceMessage(toString(), 5);
     }
 
