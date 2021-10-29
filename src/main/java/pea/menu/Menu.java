@@ -1,23 +1,24 @@
 package pea.menu;
 
 import pea.algorithms.TSP;
+import pea.file.FileHandler;
 import pea.graph.Graph;
 import pea.graph.GraphGenerator;
-import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Scanner;
 
 
 public class Menu {
 
-    public Menu() throws FileNotFoundException {
+    public Menu() throws IOException {
         mainWindow();
     }
 
-    public void mainWindow() throws FileNotFoundException {
+    public void mainWindow() throws IOException {
 
         switch (choice()) {
             case 1: {
-                String filePath = "/Users/kamilbonkowski/Downloads/instances/tsp_test.txt";
+                String filePath = "/Users/kamilbonkowski/Downloads/instances/m12.atsp";
                 Graph.getInstance().setGraph(GraphGenerator.getMatrixFromFile(filePath));
                 mainWindow();
                 break;
@@ -28,11 +29,28 @@ public class Menu {
                 int numberOfVertexes = scanner.nextInt();
                 Graph.getInstance().setGraph(GraphGenerator.generateMatrix(numberOfVertexes));
                 mainWindow();
+                break;
             }
             case 3: {
-                int[] vertexes = {0,1,2};
-                TSP tsp = new TSP(vertexes.length);
-                tsp.printAllRecursive(vertexes.length,vertexes);
+                int size = Graph.getInstance().graph.length;
+                int [] vertexArray = Graph.getInstance().generateVertexes(size);
+
+               long sum = 0;
+
+                for(int i = 0; i< 100 ; i++) {
+                    long start = System.nanoTime();
+                    TSP tsp = new TSP(size);
+                    tsp.vertexesPermutation(size, vertexArray);
+                    //tsp.showMinCircuit();
+                    long finish = System.nanoTime();
+                    sum+= finish - start;
+                }
+
+                FileHandler.executionTime.add(sum/100);
+                FileHandler.graphSize.add(size);
+                FileHandler.convertToCSV();
+
+                mainWindow();
                 break;
             }
             case 4: {
@@ -42,11 +60,12 @@ public class Menu {
             }
             case 0: {
                 System.exit(1);
+                break;
             }
         }
     }
 
-    public int choice() {
+    private int choice() {
         return choiceMessage(toString(), 5);
     }
 

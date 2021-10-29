@@ -7,7 +7,7 @@ import lombok.Setter;
 @Setter
 public class Graph {
     private static Graph INSTANCE;
-    public int[][] graph;
+    public int [][] graph;
 
     private Graph() {
     }
@@ -18,10 +18,17 @@ public class Graph {
        }
        return INSTANCE;
     }
+    public int [] generateVertexes(int size){
+        int [] vertexArray = new int[size];
+        for(int i=0; i<size; i++){
+            vertexArray[i] = i;
+        }
+        return vertexArray;
+    }
 
     public void show(){
         for (int [] row: graph){
-            for(int elem: row){
+            for(int  elem: row){
                 System.out.print(elem + " ");
             }
             System.out.println();
