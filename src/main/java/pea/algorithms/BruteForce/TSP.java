@@ -1,6 +1,9 @@
-package pea.algorithms;
+package pea.algorithms.BruteForce;
 
 import pea.graph.Graph;
+
+import java.util.Deque;
+import java.util.LinkedList;
 
 public class TSP {
 

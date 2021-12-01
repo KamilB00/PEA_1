@@ -1,7 +1,8 @@
 package pea.menu;
 
-import pea.algorithms.TSP;
-import pea.file.FileHandler;
+import pea.algorithms.BranchAndBound.BranchAndBound;
+import pea.algorithms.BruteForce.TSP;
+import pea.algorithms.HeldKarp.TSPHeldKarp;
 import pea.graph.Graph;
 import pea.graph.GraphGenerator;
 import java.io.IOException;
@@ -18,8 +19,12 @@ public class Menu {
 
         switch (choice()) {
             case 1: {
-                String filePath = "/Users/kamilbonkowski/Downloads/instances/m12.atsp";
+                System.out.print("Enter file name: ");
+                Scanner scan = new Scanner(System.in);
+                String path = scan.nextLine();
+                String filePath = "/Users/kamilbonkowski/Downloads/instancje/"+path;
                 Graph.getInstance().setGraph(GraphGenerator.getMatrixFromFile(filePath));
+
                 mainWindow();
                 break;
             }
@@ -35,25 +40,35 @@ public class Menu {
                 int size = Graph.getInstance().graph.length;
                 int [] vertexArray = Graph.getInstance().generateVertexes(size);
 
-               long sum = 0;
-
-                for(int i = 0; i< 100 ; i++) {
-                    long start = System.nanoTime();
-                    TSP tsp = new TSP(size);
-                    tsp.vertexesPermutation(size, vertexArray);
-                    //tsp.showMinCircuit();
-                    long finish = System.nanoTime();
-                    sum+= finish - start;
-                }
-
-                FileHandler.executionTime.add(sum/100);
-                FileHandler.graphSize.add(size);
-                FileHandler.convertToCSV();
+                long start = System.nanoTime();
+                TSP tsp = new TSP(size);
+                tsp.vertexesPermutation(size, vertexArray);
+                long finish = System.nanoTime();
+                System.out.println(finish-start);
+                tsp.showMinCircuit();
 
                 mainWindow();
                 break;
             }
-            case 4: {
+            case 4:
+            {
+                long start = System.nanoTime();
+                TSPHeldKarp dp = new TSPHeldKarp();
+                long finish = System.nanoTime();
+                System.out.println(finish-start);
+
+                System.out.println(dp.minCost(Graph.getInstance().getGraph()));
+                mainWindow();
+                break;
+            }
+            case 5: {
+                int[][] graph = Graph.getInstance().getGraph();
+                BranchAndBound bNb = new BranchAndBound();
+                bNb.travelingSalesman(graph);
+                mainWindow();
+                break;
+            }
+            case 6: {
                 Graph.getInstance().show();
                 mainWindow();
                 break;
@@ -66,7 +81,7 @@ public class Menu {
     }
 
     private int choice() {
-        return choiceMessage(toString(), 5);
+        return choiceMessage(toString(), 6);
     }
 
     public int choiceMessage(String content, int choiceLimit) {
@@ -88,7 +103,9 @@ public class Menu {
         menu =  "1. Read graph from file \n" +
                 "2. Generate graph \n" +
                 "3. Run TSP Brute-Force \n" +
-                "4. Show current graph \n" +
+                "4. Run TSP Held-Karp \n"+
+                "5. Run BranchAndBound \n"+
+                "6. Show current graph \n" +
                 "0. Exit";
         return menu;
     }

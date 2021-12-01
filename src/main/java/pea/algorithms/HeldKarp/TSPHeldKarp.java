@@ -1,4 +1,4 @@
-package pea.algorithms;
+package pea.algorithms.HeldKarp;
 
 import java.util.*;
 
@@ -83,7 +83,6 @@ public class TSPHeldKarp {
         int min = Integer.MAX_VALUE;
         int prevVertex = -1;
 
-
         Set<Integer> copySet = new HashSet<>(set);
         for (int i : set) {
             int cost = graph[i][0] + getEdgeWeight(copySet, i, mapOfEndNodeWithSetOfNotesToVisitAndMinPath);
@@ -113,7 +112,6 @@ public class TSPHeldKarp {
                 break;
             }
         }
-
 
         System.out.println("\nShortest circuit: ");
         stack.forEach(v -> System.out.print(v.toString()+ " "));

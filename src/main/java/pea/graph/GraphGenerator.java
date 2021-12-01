@@ -29,12 +29,19 @@ public class GraphGenerator {
         Scanner scanner = new Scanner(new File(fileName));
 
         int size = scanner.nextInt();
-        int [][] matrix = new int[size][size];
+        int[][] matrix = new int[size][size];
 
-        for(int i = 0; i<size; i++){
-            for(int j = 0; j< size; j++){
-                if(scanner.hasNextInt()){
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                if (scanner.hasNextInt()) {
                     matrix[i][j] = scanner.nextInt();
+                }
+            }
+        }
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                if (i == j) {
+                    matrix[i][j] = -1;
                 }
             }
         }
